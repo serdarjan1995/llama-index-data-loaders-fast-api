@@ -1,0 +1,164 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Athena Reader API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/load-data": {
+      "post": {
+        "tags": [
+          "Athena Reader"
+        ],
+        "summary": "Create Athena Engine",
+        "operationId": "create_athena_engine_load_data_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AthenaEngineConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "aws-access-key": []
+          },
+          {
+            "aws-access-secret": []
+          },
+          {
+            "openai-api-key": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AthenaEngineConfig": {
+        "title": "AthenaEngineConfig",
+        "required": [
+          "aws_region",
+          "s3_staging_dir",
+          "database",
+          "workgroup",
+          "table",
+          "query"
+        ],
+        "type": "object",
+        "properties": {
+          "aws_region": {
+            "title": "Aws Region",
+            "type": "string"
+          },
+          "s3_staging_dir": {
+            "title": "S3 Staging Dir",
+            "type": "string"
+          },
+          "database": {
+            "title": "Database",
+            "type": "string"
+          },
+          "workgroup": {
+            "title": "Workgroup",
+            "type": "string"
+          },
+          "table": {
+            "title": "Table",
+            "type": "string"
+          },
+          "query": {
+            "title": "Query",
+            "type": "string"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "aws-access-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "aws-access-key"
+      },
+      "aws-access-secret": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "aws-access-secret"
+      },
+      "openai-api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "openai-api-key"
+      }
+    }
+  }
+}

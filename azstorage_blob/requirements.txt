@@ -1,0 +1,8 @@
+fastapi
+pydantic
+azure-storage-blob
+azure-core
+llama-index
+uvicorn
+azure-storage-blob 
+azure-identity

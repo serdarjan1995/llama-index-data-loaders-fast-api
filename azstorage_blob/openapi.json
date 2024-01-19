@@ -1,0 +1,150 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Azure Storage Blob Reader",
+    "description": "Load files or iterate through directories from Azure Storage Blob.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/read-container/": {
+      "post": {
+        "summary": "Read Container",
+        "operationId": "read_container_read_container__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerReadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Read Container Read Container  Post",
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ContainerReadRequest": {
+        "title": "ContainerReadRequest",
+        "required": [
+          "container_name"
+        ],
+        "type": "object",
+        "properties": {
+          "container_name": {
+            "title": "Container Name",
+            "type": "string"
+          },
+          "blob": {
+            "title": "Blob",
+            "type": "string"
+          },
+          "name_starts_with": {
+            "title": "Name Starts With",
+            "type": "string"
+          },
+          "include": {
+            "title": "Include",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "connection_string": {
+            "title": "Connection String",
+            "type": "string"
+          },
+          "account_url": {
+            "title": "Account Url",
+            "type": "string"
+          },
+          "prefix": {
+            "title": "Prefix",
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

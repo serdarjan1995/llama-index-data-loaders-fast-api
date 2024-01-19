@@ -1,0 +1,1 @@
+Create an Azure Blob Storage account and provide connection credentials which are required in the API call.

@@ -1,0 +1,148 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/weather": {
+      "post": {
+        "summary": "Get weather data for multiple locations",
+        "description": "Fetches weather data from OpenWeatherMap API for a list of places. Requires an API key.",
+        "operationId": "read_weather_weather_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaceList"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Read Weather Weather Post",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherDocument"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "PlaceList": {
+        "title": "PlaceList",
+        "required": [
+          "places"
+        ],
+        "type": "object",
+        "properties": {
+          "places": {
+            "title": "Places",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      },
+      "WeatherDocument": {
+        "title": "WeatherDocument",
+        "required": [
+          "text",
+          "extra_info"
+        ],
+        "type": "object",
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "extra_info": {
+            "title": "Extra Info",
+            "type": "object"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "APIKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "access_token"
+      }
+    }
+  }
+}

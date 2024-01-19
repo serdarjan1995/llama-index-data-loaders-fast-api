@@ -1,0 +1,2 @@
+A BagelDB collection must be created and available.
+The BagelDB API server should be reachable at api.bageldb.ai.

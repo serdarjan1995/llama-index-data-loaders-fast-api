@@ -1,0 +1,6 @@
+fastapi
+pydantic
+azure-core
+azure-search-documents
+azure-search-documents
+azure-identity

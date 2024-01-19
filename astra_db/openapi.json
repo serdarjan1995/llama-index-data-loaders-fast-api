@@ -1,0 +1,289 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/load-data": {
+      "post": {
+        "summary": "Load data from Astra DB",
+        "operationId": "load_data_load_data_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataLoad"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Load Data Load Data Post",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Document"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DataLoad": {
+        "title": "DataLoad",
+        "required": [
+          "query_vector",
+          "collection_name",
+          "api_endpoint"
+        ],
+        "type": "object",
+        "properties": {
+          "query_vector": {
+            "title": "Query Vector",
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer",
+            "default": 10
+          },
+          "collection_name": {
+            "title": "Collection Name",
+            "type": "string"
+          },
+          "api_endpoint": {
+            "title": "Api Endpoint",
+            "type": "string"
+          }
+        }
+      },
+      "Document": {
+        "title": "Document",
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string",
+            "description": "Unique ID of the node."
+          },
+          "embedding": {
+            "title": "Embedding",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Embedding of the node."
+          },
+          "extra_info": {
+            "title": "Extra Info",
+            "type": "object",
+            "description": "A flat dictionary of metadata fields"
+          },
+          "excluded_embed_metadata_keys": {
+            "title": "Excluded Embed Metadata Keys",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Metadata keys that are excluded from text for the embed model."
+          },
+          "excluded_llm_metadata_keys": {
+            "title": "Excluded Llm Metadata Keys",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Metadata keys that are excluded from text for the LLM."
+          },
+          "relationships": {
+            "title": "Relationships",
+            "type": "object",
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RelatedNodeInfo"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RelatedNodeInfo"
+                  }
+                }
+              ]
+            },
+            "description": "A mapping of relationships to other node information."
+          },
+          "hash": {
+            "title": "Hash",
+            "type": "string",
+            "description": "Hash of the node content.",
+            "default": ""
+          },
+          "text": {
+            "title": "Text",
+            "type": "string",
+            "description": "Text content of the node.",
+            "default": ""
+          },
+          "start_char_idx": {
+            "title": "Start Char Idx",
+            "type": "integer",
+            "description": "Start char index of the node."
+          },
+          "end_char_idx": {
+            "title": "End Char Idx",
+            "type": "integer",
+            "description": "End char index of the node."
+          },
+          "text_template": {
+            "title": "Text Template",
+            "type": "string",
+            "description": "Template for how text is formatted, with {content} and {metadata_str} placeholders.",
+            "default": "{metadata_str}\n\n{content}"
+          },
+          "metadata_template": {
+            "title": "Metadata Template",
+            "type": "string",
+            "description": "Template for how metadata is formatted, with {key} and {value} placeholders.",
+            "default": "{key}: {value}"
+          },
+          "metadata_seperator": {
+            "title": "Metadata Seperator",
+            "type": "string",
+            "description": "Separator between metadata fields when converting to string.",
+            "default": "\n"
+          },
+          "class_name": {
+            "title": "Class Name",
+            "type": "string",
+            "default": "Document"
+          }
+        },
+        "description": "Generic interface for a data document.\n\nThis document connects to data sources."
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "ObjectType": {
+        "title": "ObjectType",
+        "enum": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "RelatedNodeInfo": {
+        "title": "RelatedNodeInfo",
+        "required": [
+          "node_id"
+        ],
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "title": "Node Id",
+            "type": "string"
+          },
+          "node_type": {
+            "$ref": "#/components/schemas/ObjectType"
+          },
+          "metadata": {
+            "title": "Metadata",
+            "type": "object"
+          },
+          "hash": {
+            "title": "Hash",
+            "type": "string"
+          },
+          "class_name": {
+            "title": "Class Name",
+            "type": "string",
+            "default": "RelatedNodeInfo"
+          }
+        },
+        "description": "Base component object to capture class names."
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "APIKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "access-token"
+      }
+    }
+  }
+}
