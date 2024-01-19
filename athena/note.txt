@@ -1,0 +1,6 @@
+An AWS account
+Configured AWS access key and secret key or IAM role
+An S3 Staging Directory
+An Athena database and workgroup to connect to
+A suitable client to send HTTP requests to the API
+API key 'somesupersecretapikey'

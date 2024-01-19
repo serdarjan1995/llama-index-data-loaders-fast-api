@@ -1,0 +1,4 @@
+fastapi
+agent-search
+pydantic
+uvicorn

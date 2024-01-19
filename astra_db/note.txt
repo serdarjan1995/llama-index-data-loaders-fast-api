@@ -1,0 +1,3 @@
+Having an Astra DB instance set up with a valid API token and collection name.
+The API key to authenticate requests against your API.
+The Astra DB JSON API endpoint for your database.

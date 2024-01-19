@@ -1,0 +1,1 @@
+Set the ASSEMBLYAI_API_KEY environment variable or pass the api_key as a query parameter.
