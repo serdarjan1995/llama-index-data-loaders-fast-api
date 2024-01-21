@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+requests
+beautifulsoup4
+html2text
+pydantic
+html2text
+llama_hub

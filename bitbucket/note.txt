@@ -1,0 +1,2 @@
+Set the environment variables BITBUCKET_API_KEY and BITBUCKET_USERNAME
+Create the API key on Bitbucket and pass it as a header using the key name 'X-BITBUCKET-API-KEY'

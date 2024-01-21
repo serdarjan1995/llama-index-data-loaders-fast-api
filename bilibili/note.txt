@@ -1,0 +1,2 @@
+A list of Bilibili video URLs.
+No official API key required as bilibili_api is an unofficial API.
