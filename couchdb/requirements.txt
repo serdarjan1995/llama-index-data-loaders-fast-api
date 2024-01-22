@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+couchdb3
+pydantic
+llama-hub

@@ -1,0 +1,48 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DadJokes loader",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/random-joke": {
+      "get": {
+        "tags": [
+          "Dad Jokes"
+        ],
+        "summary": "Get a Random Dad Joke",
+        "description": "Fetch a random dad joke from icanhazdadjoke.",
+        "operationId": "get_random_dad_joke_random_joke_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Document"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Document": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "Document"
+      }
+    }
+  }
+}

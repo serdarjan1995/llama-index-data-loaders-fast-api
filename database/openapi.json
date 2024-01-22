@@ -1,0 +1,183 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/load_data/": {
+      "post": {
+        "summary": "Load Data",
+        "operationId": "load_data_load_data__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Document"
+                  },
+                  "type": "array",
+                  "title": "Response Load Data Load Data  Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DatabaseConfig": {
+        "properties": {
+          "scheme": {
+            "type": "string",
+            "title": "Scheme",
+            "default": "postgres"
+          },
+          "host": {
+            "type": "string",
+            "title": "Host",
+            "default": "localhost"
+          },
+          "port": {
+            "type": "string",
+            "title": "Port",
+            "default": "5432"
+          },
+          "user": {
+            "type": "string",
+            "title": "User",
+            "default": "postgres"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password",
+            "default": "FakeExamplePassword"
+          },
+          "dbname": {
+            "type": "string",
+            "title": "Dbname",
+            "default": "postgres"
+          }
+        },
+        "type": "object",
+        "title": "DatabaseConfig"
+      },
+      "Document": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "Document"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "RequestBody": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "default": "SELECT CONCAT(name, ' is ', age, ' years old.') AS text FROM public.users WHERE age >= 18"
+          },
+          "connection_uri": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Connection Uri",
+            "default": "{scheme}://{user}:{password}@{host}:{port}/{dbname}"
+          },
+          "db_config": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatabaseConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "RequestBody"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

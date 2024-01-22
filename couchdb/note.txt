@@ -1,0 +1,2 @@
+A CouchDB instance running and accessible.
+Valid username and password for the CouchDB server if required.

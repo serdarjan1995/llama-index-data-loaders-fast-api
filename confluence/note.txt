@@ -1,0 +1,5 @@
+Set CONFLUENCE_BASE_URL to the Confluence base URL
+Generate API key from your service and replace 'your_api_key_here' with the actual key
+Set up OAuth2 application and provide authorizationUrl and tokenUrl for Atlassian services
+Make sure the Python environment has internet access to reach the Confluence APIs
+Poppler-utils installed for pdf2image processing

@@ -1,0 +1,14 @@
+fastapi
+pydantic
+python-multipart
+llama_index
+llama_hub
+atlassian-python-api
+html2text
+pytesseract
+pdf2image
+Pillow
+docx2txt
+xlrd
+svglib
+retrying

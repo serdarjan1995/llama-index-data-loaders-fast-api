@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pydantic
+llama-hub
+chromadb
+typing-extensions
+python-multipart

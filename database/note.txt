@@ -1,0 +1,3 @@
+An initialized SQL database with access credentials or a valid connection URI.
+Properly configured firewall settings to allow incoming HTTP requests if hosting publicly.
+If authentication is required, ensure to have the access token.

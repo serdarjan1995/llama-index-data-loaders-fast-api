@@ -1,0 +1,1 @@
+Create the required Chroma collections and ensure they are persisted in the directory (replace 'default_collection' and 'default_directory' in the code with actual values).
