@@ -1,0 +1,163 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Simple Directory Reader",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/load-directory-data/": {
+      "post": {
+        "summary": "Load documents from a directory",
+        "operationId": "load_directory_data_load_directory_data__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "RequestBody": {
+        "properties": {
+          "input_dir": {
+            "type": "string",
+            "title": "Input Dir",
+            "description": "Path to the directory to load"
+          },
+          "exclude_hidden": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exclude Hidden",
+            "description": "Whether to exclude hidden files",
+            "default": true
+          },
+          "recursive": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recursive",
+            "description": "Whether to search recursively in subdirectories",
+            "default": false
+          },
+          "required_exts": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required Exts",
+            "description": "List of required file extensions"
+          },
+          "num_files_limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Num Files Limit",
+            "description": "Max number of files to read",
+            "default": 1
+          }
+        },
+        "type": "object",
+        "required": [
+          "input_dir"
+        ],
+        "title": "RequestBody"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
