@@ -1,0 +1,14 @@
+beautifulsoup4
+unstructured
+urllib3
+playwright~=1.30
+MainContentExtractor
+trafilatura~=1.4
+newspaper3k
+playwright==1.30.0
+html2text
+chromedriver-autoinstaller
+requests
+aiohttp
+selenium
+listparser

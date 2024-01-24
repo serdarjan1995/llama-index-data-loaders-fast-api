@@ -1,0 +1,244 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Web Loader Tool",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/load-data/": {
+      "post": {
+        "summary": "Parse urls and extract data",
+        "operationId": "load_data_load_data__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "KnowledgeBaseExtraArgs": {
+        "properties": {
+          "root_url": {
+            "type": "string",
+            "title": "Root Url",
+            "description": "the base url of the knowledge base, with no trailing slash",
+            "default": "https://www.intercom.com/help"
+          },
+          "link_selectors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Link Selectors",
+            "description": "list of css selectors to find links to articles while crawling",
+            "default": [
+              ".article-list a",
+              ".article-list a"
+            ]
+          },
+          "article_path": {
+            "type": "string",
+            "title": "Article Path",
+            "description": "the url path of articles on this domain so the crawler knows when to stop",
+            "default": "/articles"
+          },
+          "body_selector": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Body Selector",
+            "description": "css selector to find the body of the article",
+            "default": ".article-body"
+          },
+          "title_selector": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title Selector",
+            "description": "css selector to find the title of the article",
+            "default": ".article-title"
+          },
+          "subtitle_selector": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subtitle Selector",
+            "description": "css selector to find the subtitle/description of the article",
+            "default": ".article-subtitle"
+          }
+        },
+        "type": "object",
+        "title": "KnowledgeBaseExtraArgs"
+      },
+      "RequestBody": {
+        "properties": {
+          "urls": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Urls",
+            "description": "List of urls to extract"
+          },
+          "web_reader": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WebReaderEnum"
+              }
+            ],
+            "description": "Reader to use"
+          },
+          "knowledge_base_extra_args": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/KnowledgeBaseExtraArgs"
+              }
+            ],
+            "description": "Extra arguments of the reader as an input"
+          },
+          "whole_site_extra_args": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WholeSiteReaderExtraArgs"
+              }
+            ],
+            "description": "Extra arguments of the reader as an input"
+          }
+        },
+        "type": "object",
+        "required": [
+          "urls",
+          "web_reader"
+        ],
+        "title": "RequestBody"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WebReaderEnum": {
+        "type": "string",
+        "enum": [
+          "beautiful_soup_web",
+          "knowledge_base",
+          "main_content_extractor",
+          "news",
+          "readability_web",
+          "rss",
+          "rss_news",
+          "simple_web",
+          "sitemap",
+          "trafilatura_web",
+          "unstructured_web",
+          "whole_site"
+        ],
+        "title": "WebReaderEnum"
+      },
+      "WholeSiteReaderExtraArgs": {
+        "properties": {
+          "prefix": {
+            "type": "string",
+            "title": "Prefix",
+            "description": "URL prefix to focus the scraping."
+          },
+          "max_depth": {
+            "type": "integer",
+            "title": "Max Depth",
+            "description": "Maximum depth for BFS. Defaults to 10.",
+            "default": 10
+          }
+        },
+        "type": "object",
+        "required": [
+          "prefix"
+        ],
+        "title": "WholeSiteReaderExtraArgs"
+      }
+    }
+  }
+}
